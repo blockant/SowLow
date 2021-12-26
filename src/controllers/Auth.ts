@@ -1,6 +1,7 @@
 import User from "../models/User";
 import Logger from "../providers/Logger";
 import { Request, Response } from "express";
+import JWT from "../providers/JWT";
 class Auth{
     public static async signup(req : Request, res: Response){
         try{
@@ -23,8 +24,23 @@ class Auth{
     }
     public static async login(req: Request, res: Response){
         try{
-            return res.status(200).json({message: 'Login Success'})
+            const {email, password}=req.body
+            if(!email || !password){
+                throw new Error('Insufficient Fields While Logging In')
+            }
+            const foundUser=await User.findOne({email})
+            if(!foundUser){
+                throw new Error('User with the Given Email Not Found')
+            }
+            if(!foundUser.authenticate(password)){
+                throw new Error('Wrong Password')
+            }
+            // TODO: Remove Password from Response
+            delete foundUser.password
+            const tokenObject=JWT.issueJWT(foundUser)
+            return res.status(200).json({message: 'Login Success', token: tokenObject.token, user: foundUser})
         }catch(err){
+            Logger.error(err)
             return res.status(500).json({message: 'Server Error', error: err.message})
         }
     }

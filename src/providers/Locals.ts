@@ -23,7 +23,7 @@ class Locals {
 		const jwtExpiresIn = process.env.JWT_EXPIRES_IN || 3;
 		const apiPrefix = process.env.API_PREFIX || 'api';
 		const logDays = process.env.LOG_DAYS || 20;
-
+        const jwtSecretKey= process.env.JWT_SECRET_TOKEN_KEY
 		return {
 			apiPrefix,
 			copyright,
@@ -36,7 +36,8 @@ class Locals {
 			mongooseUrl,
 			name,
 			port,
-			url
+			url,
+            jwtSecretKey
 		};
 	}
 }
