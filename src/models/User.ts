@@ -21,6 +21,8 @@ const UserSchema= new mongoose.Schema<IUser>(
         phone: String,
         eth_address: String,
         bth_address: String
+    },{
+        timestamps: true
     }
 )
 

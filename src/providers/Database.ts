@@ -2,6 +2,7 @@
 import mongoose from 'mongoose'
 import Locals from './Locals';
 import Logger from './Logger';
+import mongoosePaginate from 'mongoose-paginate-v2';
 export class Database{
     public static init():any{
         // const options = {
@@ -18,6 +19,7 @@ export class Database{
               Logger.error(`Initial Distribution API Database connection error occured - ${err.message}`);
             });
         mongoose.set("debug",true);
+        mongoose.plugin(mongoosePaginate)
     }
 }
 export default mongoose
