@@ -27,8 +27,16 @@ const productSchema=new mongoose.Schema<IProduct>({
     name: {
         type: String,
         required: true
+    },
+    bid_complete_status:{
+        type: Boolean,
+        default: false
+    },
+    currency:{
+        type: String,
+        required: true
     }
-})
+}, {timestamps: true})
 
 productSchema.plugin(mongoosePaginate)
 

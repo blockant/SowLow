@@ -4,7 +4,7 @@ import Logger from "../providers/Logger";
 class Users{
     public static async editUser(req: Request, res: Response){
         try {
-            const {name}=req.body
+            const {name, eth_address, bth_address, phone, password}=req.body
             const foundUser= await User.findById(res.locals.userId)
             if(!foundUser){
                 throw new Error('User Not Found')
@@ -12,7 +12,21 @@ class Users{
             if(name){
                 foundUser.name=name
             }
+            if(eth_address){
+                foundUser.eth_address=eth_address
+            }
+            if(bth_address){
+                foundUser.bth_address=bth_address
+            }
+            if(phone){
+                foundUser.phone=phone
+            }
+            if(password){
+                foundUser.password=password
+            }
             await foundUser.save()
+            // Remove p_hash
+            delete foundUser.password
             return res.status(200).json({message: 'User Updated Success', user: foundUser})
         } catch (err) {
             Logger.error(err)

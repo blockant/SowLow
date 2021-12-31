@@ -18,6 +18,8 @@ class Auth{
             await newUser.save()
             return res.status(200).json({message: 'Signup Success', user: newUser})
         }catch(err){
+            // tslint:disable-next-line:no-console
+            console.log(err)
             Logger.error(err)
             return res.status(500).json({message: 'Server Error', error: err.message})
         }

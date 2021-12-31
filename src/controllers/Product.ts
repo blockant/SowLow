@@ -4,12 +4,15 @@ import Logger from "../providers/Logger";
 class ProductController{
     public static async addProduct(req: Request, res: Response){
         try{
-            const {image_url, price, start_time, end_time, name}=req.body
+            const {image_url, price, start_time, end_time, name, currency}=req.body
             // Date Validations
+            if(new Date()> new Date(start_time)){
+                throw new Error('Current date can not be greater than start date')
+            }
             if(new Date(start_time)> new Date(end_time)){
                 throw new Error('End Date Can not be less than start date')
             }
-            const newProduct=new Product({image_url, price, start_time, end_time, name})
+            const newProduct=new Product({image_url, price, start_time, end_time, name, currency})
             await newProduct.save()
             return res.status(200).json({message: "Product Added Success", product: newProduct})
         }catch(err){
