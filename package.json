@@ -23,6 +23,8 @@
     "mongoose": "^6.0.13",
     "mongoose-paginate-v2": "^1.4.2",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.0",
+    "twilio": "^3.72.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -35,6 +37,7 @@
     "@types/mongodb": "^4.0.7",
     "@types/mongoose-paginate-v2": "^1.4.2",
     "@types/node": "^16.11.9",
+    "@types/node-cron": "^3.0.1",
     "@types/shelljs": "^0.8.9",
     "fs-extra": "^10.0.0",
     "nodemon": "^2.0.15",

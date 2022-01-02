@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isLoggedIn } from "../middlewares/Auth";
 import ProductController from "../controllers/Product";
 import BiddingController from "../controllers/Bidding";
+import WinnerController from "../controllers/Winner";
 const router=Router()
 
 // --------------------

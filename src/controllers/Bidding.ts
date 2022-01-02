@@ -21,6 +21,10 @@ class BiddingController{
             if(!foundProduct){
                 throw new Error('Product Not Found')
             }
+            // Use of Bid Price
+            if(bid_amount<0){
+                throw new Error('Minimum Bid Amount can not be less than 0')
+            }
             if(new Date(foundProduct.start_time)> new Date()){
                 throw new Error('Bid has not started yet')
             }

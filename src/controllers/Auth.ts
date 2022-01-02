@@ -5,7 +5,7 @@ import JWT from "../providers/JWT";
 class Auth{
     public static async signup(req : Request, res: Response){
         try{
-            const {email, password, name}=req.body
+            const {email, password, name, eth_address, bth_address, phone}=req.body
             if(!email || !password || !name){
                 throw new Error('Insufficient Fields while Signup')
             }
@@ -14,7 +14,7 @@ class Auth{
             if(foundUser){
                 throw new Error('User Already Exists')
             }
-            const newUser=new User({email, password, name})
+            const newUser=new User({email, password, name, eth_address, bth_address, phone})
             await newUser.save()
             return res.status(200).json({message: 'Signup Success', user: newUser})
         }catch(err){

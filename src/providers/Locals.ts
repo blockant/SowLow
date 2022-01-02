@@ -24,6 +24,10 @@ class Locals {
 		const apiPrefix = process.env.API_PREFIX || 'api';
 		const logDays = process.env.LOG_DAYS || 20;
         const jwtSecretKey= process.env.JWT_SECRET_TOKEN_KEY
+		const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+		const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+		const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
+		const twilioTestNumber = process.env.MY_NUMBER;
 		return {
 			apiPrefix,
 			copyright,
@@ -37,7 +41,11 @@ class Locals {
 			name,
 			port,
 			url,
-            jwtSecretKey
+            jwtSecretKey,
+			twilioAccountSid,
+			twilioAuthToken,
+			twilioNumber,
+			twilioTestNumber
 		};
 	}
 }
