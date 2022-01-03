@@ -5,7 +5,7 @@ import Bid from "../models/Bid";
 import Product from "../models/Product";
 import User  from "../models/User";
 import Logger from "../providers/Logger";
-import TwilioClient from '../vendors/Twilio.';
+import TwilioClient from '../vendors/Twilio';
 
 const winnerCron=cron.schedule('* * * * *', async () => {
     try{

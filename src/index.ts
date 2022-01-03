@@ -8,7 +8,7 @@ import {Database} from './providers/Database'
 import CronJobs from "./services/Cron";
 // Importing Routes
 import masterRoutes from './routes/index'
-import TwilioClient from "./vendors/Twilio.";
+import TwilioClient from "./vendors/Twilio";
 
 dotenv.config()
 const app = express();
