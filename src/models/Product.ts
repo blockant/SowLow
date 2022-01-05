@@ -39,6 +39,10 @@ const productSchema=new mongoose.Schema<IProduct>({
     reward:{
         type: Number,
         required: true
+    },
+    winning_bid: {
+        type: Number,
+        default: null
     }
 }, {timestamps: true})
 

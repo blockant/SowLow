@@ -5,6 +5,6 @@ export interface IBid extends mongoose.Document{
     product: mongoose.Types.ObjectId,
     bid_amount: number,
     wallet_address: string,
-    transaction_id: string
+    transaction_hash: string
 }
 export default IBid

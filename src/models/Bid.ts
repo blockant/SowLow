@@ -26,6 +26,10 @@ const bidSchema=new mongoose.Schema<IBid>({
     wallet_address: {
         type: String,
         required: true
+    },
+    transaction_hash:{
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 

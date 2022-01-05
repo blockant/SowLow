@@ -4,6 +4,13 @@ import Bid from "../models/Bid";
 import Product from "../models/Product";
 import User  from "../models/User";
 import { ObjectId } from "mongodb";
+import fs from "fs";
+import path from 'path'
+import Web3 from "web3";
+import HDWalletProvider from "@truffle/hdwallet-provider";
+import Locals from "../providers/Locals";
+const buyContractjson=JSON.parse(fs.readFileSync(path.resolve(__dirname, '../handler.json') , 'utf8'))
+const token=JSON.parse(fs.readFileSync(path.resolve(__dirname, '../token.json') , 'utf8'))
 class BiddingController{
     public static async createNewBid(req: Request, res: Response){
         try{
@@ -37,9 +44,27 @@ class BiddingController{
                 throw new Error('Following is Not Least Possible Bid')
             }else{
                 // In Case It is new or valid bid
-                // TODO: Blockchain Method trasferring Token goes here
-                const newBid=await Bid.create({user: userId, product: productId, bid_amount, wallet_address})
-                return res.status(200).json({message: 'Success, bid created', bid: newBid})
+                // Blockchain Method trasferring Token goes here
+                const provider = new HDWalletProvider(
+                    'sort island camera clay tiger miss sting light scheme quit bid model',
+                    'https://matic-mumbai.chainstacklabs.com',
+                  );
+                const web = new Web3(provider);
+                const tokenContract = new web.eth.Contract(token, Locals.config().tokenContractAddress);
+                // Check if Transaction is allowed
+                const allowance=await tokenContract.methods.allowance(wallet_address, Locals.config().handlerAddress).call()
+                Logger.info('Allowance is', allowance)
+                if(allowance.toString()<foundProduct.price.toString()+ "000000000000000000"){
+                    throw new Error(`User has not authorized tranfer of tokens of amount ${foundProduct.price.toString()}`)
+                }
+                const contract = new web.eth.Contract(buyContractjson, Locals.config().buyContractAddress);
+                const buy = await contract.methods.buyItem(foundProduct.name,foundProduct.price.toString() + "000000000000000000", wallet_address).send({from: Locals.config().handlerAddress});
+                if(buy.status){
+                    const newBid=await Bid.create({user: userId, product: productId, bid_amount, wallet_address, transaction_hash: buy.transactionHash})
+                    return res.status(200).json({message: 'Success, bid created', bid: newBid})
+                }else{
+                    throw new Error('Unable to create Bid')
+                }
             }
         }catch(err){
             Logger.error(err)

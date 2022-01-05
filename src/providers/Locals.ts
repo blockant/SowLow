@@ -28,6 +28,13 @@ class Locals {
 		const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
 		const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 		const twilioTestNumber = process.env.MY_NUMBER;
+		const awsRegion=process.env.AWS_REGION;
+		const awsAccessKey=process.env.SES_ACCESS_KEY;
+		const awsSecretKey=process.env.SES_SECRET_KEY;
+		const swtTokenAddress=process.env.SWT_TOKEN_ADDRESS;
+		const tokenContractAddress=process.env.TOKEN_CONTRACT_ADDRESS
+		const handlerAddress=process.env.HANDLER_ADDRESS
+		const buyContractAddress=process.env.BUY_CONTRACT_ADDRESS
 		return {
 			apiPrefix,
 			copyright,
@@ -45,7 +52,14 @@ class Locals {
 			twilioAccountSid,
 			twilioAuthToken,
 			twilioNumber,
-			twilioTestNumber
+			twilioTestNumber,
+			awsAccessKey,
+			awsRegion,
+			awsSecretKey,
+			swtTokenAddress,
+			tokenContractAddress,
+			handlerAddress,
+			buyContractAddress
 		};
 	}
 }
