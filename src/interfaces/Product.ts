@@ -7,6 +7,7 @@ export interface IProduct extends mongoose.Document{
     end_time: Date,
     name: string,
     bid_complete_status: boolean,
-    currency: string
+    currency: string,
+    reward: number
 }
 export default IProduct

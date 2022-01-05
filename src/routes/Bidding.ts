@@ -8,6 +8,9 @@ const router=Router()
 // GET Routes
 // --------------------
 
+// Get all Bids
+router.get('/', BiddingController.viewAllBids)
+
 // Get Bid By Id
 router.get('/:bidId', BiddingController.getBidById)
 

@@ -12,9 +12,6 @@ const router=Router()
 // Get all Products
 router.get('/', ProductController.getAllProducts)
 
-// Get all Bids of a product
-router.get('/:productId/bid', BiddingController.viewAllBids)
-
 // Get Winning Bid for current product
 router.get('/:productId/bid/winning', BiddingController.getCurrentWinningBid)
 

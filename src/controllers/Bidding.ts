@@ -21,7 +21,6 @@ class BiddingController{
             if(!foundProduct){
                 throw new Error('Product Not Found')
             }
-            // Use of Bid Price
             if(bid_amount<0){
                 throw new Error('Minimum Bid Amount can not be less than 0')
             }
@@ -38,6 +37,7 @@ class BiddingController{
                 throw new Error('Following is Not Least Possible Bid')
             }else{
                 // In Case It is new or valid bid
+                // TODO: Blockchain Method trasferring Token goes here
                 const newBid=await Bid.create({user: userId, product: productId, bid_amount, wallet_address})
                 return res.status(200).json({message: 'Success, bid created', bid: newBid})
             }
@@ -48,13 +48,11 @@ class BiddingController{
     }
     public static async viewAllBids(req: Request, res: Response){
         try{
-            const {page, limit, start_time, end_time, user_id}=req.query
-            const {productId}=req.params
-            if(!productId){
-                throw new Error('Product Id is Required')
-            }
+            const {page, limit, start_time, end_time, user_id, paginate, product_id}=req.query
             const findQuery: Record<string,any> = {}
-            findQuery.product_id= new ObjectId(productId.toString())
+            if(product_id){
+                findQuery.product_id= new ObjectId(product_id.toString())
+            }
             if(start_time){
                 findQuery.start_time={
                     '$gte': start_time
@@ -68,9 +66,14 @@ class BiddingController{
             if(user_id){
                 findQuery.user_id= new ObjectId(user_id.toString())
             }
-            // Set Default page as 1 and limit as 10
-            const foundBids=await Bid.paginate(findQuery, {page: Number(page) || 1, limit: Number(limit) || 10 , populate:[{path: "user", select: "name _id"}, {path: "product", select: "name _id"}]})
-            return res.status(200).json({message: "Success", bids: foundBids})
+            if(paginate==='true'){
+                // Set Default page as 1 and limit as 10
+                const foundBids=await Bid.paginate(findQuery, {page: Number(page) || 1, limit: Number(limit) || 10 , populate:[{path: "user", select: "name _id"}, {path: "product", select: "name _id"}]})
+                return res.status(200).json({message: "Success", bids: foundBids})
+            }else{
+                const foundBids=await Bid.find(findQuery).populate('user', 'name _id').populate('product', 'name _id bid_complete_status')
+                return res.status(200).json({message: "Success", bids: foundBids})
+            }
         }catch(err){
             Logger.error(err)
             return res.status(500).json({message: 'Server Error', error: err.message})

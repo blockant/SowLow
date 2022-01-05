@@ -17,6 +17,9 @@ const winnerSchema=new mongoose.Schema<IWinner>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bid',
         required: true
+    },
+    reward_transaction_id:{
+        type: String
     }
 }, {timestamps: true})
 

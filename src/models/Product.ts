@@ -35,6 +35,10 @@ const productSchema=new mongoose.Schema<IProduct>({
     currency:{
         type: String,
         required: true
+    },
+    reward:{
+        type: Number,
+        required: true
     }
 }, {timestamps: true})
 
