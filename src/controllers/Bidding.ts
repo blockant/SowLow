@@ -53,12 +53,13 @@ class BiddingController{
                 const tokenContract = new web.eth.Contract(token, Locals.config().tokenContractAddress);
                 // Check if Transaction is allowed
                 const allowance=await tokenContract.methods.allowance(wallet_address, Locals.config().handlerAddress).call()
-                Logger.info('Allowance is', allowance)
+                Logger.info(`Allowance is ${allowance}`)
                 if(allowance.toString()<foundProduct.price.toString()+ "000000000000000000"){
                     throw new Error(`User has not authorized tranfer of tokens of amount ${foundProduct.price.toString()}`)
                 }
-                const contract = new web.eth.Contract(buyContractjson, Locals.config().buyContractAddress);
-                const buy = await contract.methods.buyItem(foundProduct.name,foundProduct.price.toString() + "000000000000000000", wallet_address).send({from: Locals.config().handlerAddress});
+                const buy = await tokenContract.methods.transferFrom(wallet_address,Locals.config().handlerAddress,foundProduct.price.toString() + "000000000000000000").send({from:Locals.config().handlerAddress})
+                // console.log(buy)
+                // Logger.debug(`After Buying ${JSON.stringify(buy)}`)
                 if(buy.status){
                     const newBid=await Bid.create({user: userId, product: productId, bid_amount, wallet_address, transaction_hash: buy.transactionHash})
                     return res.status(200).json({message: 'Success, bid created', bid: newBid})
