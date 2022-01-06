@@ -8,7 +8,7 @@ import Logger from "../providers/Logger";
 import TwilioClient from '../vendors/Twilio';
 import Web3 from "web3";
 import HDWalletProvider from "@truffle/hdwallet-provider";
-import Email from './Email'
+import EmailClient from './Email'
 const winnerCron=cron.schedule('* * * * *', async () => {
     try{
         // Get all Products whose end date has expired
@@ -42,15 +42,9 @@ const winnerCron=cron.schedule('* * * * *', async () => {
                         from: account[0], // account[0] will be the central address and will not change
                         to: leastBid[0].wallet_address,  // replace "account[1]" with the winner address
                         value: web.utils.toWei(amountToBeSent.toString()),
-                    }, (err, transactionHash)=>{
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            winner.reward_transaction_id=transactionHash
-                            Logger.info(`Winner Transaction hash is ${transactionHash}`); // Once we receive the transaction hash, transaction is initiated and will mostly be confirmed in 15-20s 
-                        }
-                    });
-                    console.log(resp)
+                    })
+                    console.log('Resp of ethernium Transaction is', resp)
+                    winner.reward_transaction_id=resp.transactionHash
                     await Winner.create(winner)
                     // Send Win Notification
                     const foundUser=await User.findById(leastBid[0].user)

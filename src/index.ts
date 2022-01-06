@@ -9,6 +9,7 @@ import CronJobs from "./services/Cron";
 // Importing Routes
 import masterRoutes from './routes/index'
 import TwilioClient from "./vendors/Twilio";
+import EmailClient from "./services/Email"
 
 dotenv.config()
 const app = express();
@@ -23,6 +24,11 @@ app.use(morganMiddleware)
 app.use(cors())
 app.get( "/health", ( req, res ) => {
     // TwilioClient.sendMessageToClient('<Test Number>')
+    // try{
+    //     EmailClient.sendEmail('<>Test Email<>', '<h1>Email Content Goes here</h1>', 'Win Details')
+    // }catch(err){
+    //     console.log(err)
+    // }
     return res.status(200).json({message: "Service Running"})
 });
 
