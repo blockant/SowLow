@@ -9,6 +9,7 @@
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "start": "node .",
+    "pm2": "pm2 start dist/index.js --name sowlow-backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
