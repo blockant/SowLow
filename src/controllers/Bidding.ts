@@ -45,6 +45,8 @@ class BiddingController{
             }else{
                 // In Case It is new or valid bid
                 // Blockchain Method trasferring Token goes here
+                // https://data-seed-prebsc-1-s1.binance.org:8545
+                // https://matic-mumbai.chainstacklabs.com
                 const provider = new HDWalletProvider(
                     'sort island camera clay tiger miss sting light scheme quit bid model',
                     'https://matic-mumbai.chainstacklabs.com',

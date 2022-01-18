@@ -35,6 +35,8 @@ class Locals {
 		const tokenContractAddress=process.env.TOKEN_CONTRACT_ADDRESS
 		const handlerAddress=process.env.HANDLER_ADDRESS
 		const buyContractAddress=process.env.BUY_CONTRACT_ADDRESS
+		const SSL_CERT_PATH=process.env.SSL_CERT_PATH
+		const SSL_KEY_PATH=process.env.SSL_KEY_PATH
 		return {
 			apiPrefix,
 			copyright,
@@ -59,7 +61,9 @@ class Locals {
 			swtTokenAddress,
 			tokenContractAddress,
 			handlerAddress,
-			buyContractAddress
+			buyContractAddress,
+			SSL_CERT_PATH,
+			SSL_KEY_PATH
 		};
 	}
 }
