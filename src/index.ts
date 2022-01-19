@@ -10,6 +10,18 @@ import CronJobs from "./services/Cron";
 import masterRoutes from './routes/index'
 import TwilioClient from "./vendors/Twilio";
 import EmailClient from "./services/Email"
+import http from 'http'
+import https from 'https'
+import fs from 'fs'
+import Locals from "./providers/Locals";
+let privateKey={}
+let certificate={}
+let credentials={}
+if(process.env.NODE_ENV==='production'){
+    privateKey  = fs.readFileSync(Locals.config().SSL_CERT_PATH, 'utf8');
+    certificate = fs.readFileSync(Locals.config().SSL_KEY_PATH, 'utf8');
+    credentials = {key: privateKey, cert: certificate};
+}
 
 dotenv.config()
 const app = express();
@@ -33,8 +45,14 @@ app.get( "/health", ( req, res ) => {
 });
 
 app.use('/api/v1', masterRoutes)
-
-// start the Express server
-app.listen( process.env.PORT, () => {
-    Logger.info(`server started at http://localhost:${ process.env.PORT }`)
-} );
+if(process.env.NODE_ENV==='production'){
+    const server = https.createServer(credentials, app);
+    // start the Express server
+    server.listen( process.env.PORT, () => {
+        Logger.info(`server started at https://localhost:${ process.env.PORT }`)
+    } );
+}else{
+    app.listen( process.env.PORT, () => {
+        Logger.info(`server started at http://localhost:${ process.env.PORT }`)
+    } );
+}
