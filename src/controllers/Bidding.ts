@@ -79,7 +79,7 @@ class BiddingController{
             const {page, limit, start_time, end_time, user_id, paginate, product_id}=req.query
             const findQuery: Record<string,any> = {}
             if(product_id){
-                findQuery.product_id= new ObjectId(product_id.toString())
+                findQuery.product= new ObjectId(product_id.toString())
             }
             if(start_time){
                 findQuery.start_time={
@@ -124,7 +124,7 @@ class BiddingController{
         try{
             const {productId}=req.params
             // product_id=new ObjectId(product_id.toString())
-            const foundBid=await Bid.find({product: new ObjectId(productId.toString())}).populate({path: "user", select: "name _id"}).populate({path: "product", select: "name _id"}).sort({bid_amount: 1}).limit(1)
+            const foundBid=await Bid.find({product: new ObjectId(productId.toString())}).populate({path: "user", select: "name _id"}).populate({path: "product", select: "name _id"}).sort({bid_amount: 'desc', createdAt: 'desc'}).limit(1)
             if(!foundBid || foundBid?.length<1){
                 throw new Error('No Bid Found')
             }

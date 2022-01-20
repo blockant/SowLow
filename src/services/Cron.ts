@@ -22,7 +22,7 @@ const winnerCron=cron.schedule('* * * * *', async () => {
         const foundProducts=await Product.find(findQuery)
         // Use Promise.all to make it simpler
         for (const product of foundProducts) {
-            const leastBid=await Bid.find({product: new ObjectId(product._id)}).sort({bid_amount: 1}).limit(1)
+            const leastBid=await Bid.find({product: new ObjectId(product._id)}).sort({bid_amount: 'desc', createdAt: 'desc'}).limit(1)
             if(leastBid?.length>0){
                 const winner: Record<string,any>={user: leastBid[0].user, product: leastBid[0].product, bid: leastBid[0]._id}
                 product.winning_bid=leastBid[0].bid_amount
