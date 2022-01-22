@@ -35,7 +35,7 @@ class ProductController{
     }
     public static async getAllProducts(req: Request, res: Response){
         try{
-            const {page, limit, start_time, end_time}=req.query
+            const {page, limit, start_time, end_time, paginate}=req.query
             const findQuery: Record<string,any> = {}
             if(start_time){
                 findQuery.start_time={
@@ -48,7 +48,12 @@ class ProductController{
                 }
             }
             // Set Default page as 1 and limit as 10
-            const foundProducts=await Product.paginate(findQuery, {page: Number(page) || 1, limit: Number(limit) || 10 })
+            let foundProducts={}
+            if(paginate==='false'){
+                foundProducts=await Product.find(findQuery)
+            }else{
+                foundProducts=await Product.paginate(findQuery, {page: Number(page) || 1, limit: Number(limit) || 10 })
+            }
             return res.status(200).json({message: "Success", products: foundProducts})
         }catch(err){
             Logger.error(err)
