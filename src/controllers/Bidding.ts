@@ -49,7 +49,7 @@ class BiddingController{
                 // https://matic-mumbai.chainstacklabs.com
                 const provider = new HDWalletProvider(
                     'sort island camera clay tiger miss sting light scheme quit bid model',
-                    'https://matic-mumbai.chainstacklabs.com',
+                    'https://data-seed-prebsc-1-s1.binance.org:8545'
                   );
                 const web = new Web3(provider);
                 const tokenContract = new web.eth.Contract(token, Locals.config().tokenContractAddress);
