@@ -50,7 +50,7 @@ class ProductController{
             // Set Default page as 1 and limit as 10
             let foundProducts={}
             if(paginate==='false'){
-                foundProducts=await Product.find(findQuery)
+                foundProducts=await Product.find(findQuery).sort({createdAt: 'desc'})
             }else{
                 foundProducts=await Product.paginate(findQuery, {page: Number(page) || 1, limit: Number(limit) || 10 })
             }
